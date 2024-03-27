@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/enemy.gd" type="Script" id=1]
+[ext_resource path="res://scenes/enemy_bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/RandomTimer.gd" type="Script" id=3]
+[ext_resource path="res://assets/enemy/zombie_spriteframes.tres" type="SpriteFrames" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 20, 20 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 25, 25 )
+
+[node name="enemy" type="KinematicBody2D" groups=["player"]]
+collision_layer = 4
+collision_mask = 20
+script = ExtResource( 1 )
+player_spot_range = 400
+bulletScene = ExtResource( 2 )
+
+[node name="kinematic_colider" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="hit_box" type="Area2D" parent="." groups=["damageable"]]
+collision_layer = 4
+collision_mask = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box"]
+shape = SubResource( 2 )
+
+[node name="fire_point" type="Node2D" parent="."]
+position = Vector2( 28, 0 )
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.8
+autostart = true
+script = ExtResource( 3 )
+baseTime = 1.0
+maxTime = 2.0
+randomInitialize = true
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+rotation = 1.5708
+scale = Vector2( 0.6, 0.6 )
+frames = ExtResource( 4 )
+animation = "walking"
+frame = 2
+
+[connection signal="area_entered" from="hit_box" to="." method="_on_hit_box_area_entered"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]

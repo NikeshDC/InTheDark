@@ -1,0 +1,5 @@
+player - 1
+player_bullet - 2
+enemy - 3
+enemy_bullet - 4
+wall/obstacle - 5
