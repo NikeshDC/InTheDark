@@ -12,7 +12,7 @@ export var bulletSpeed = 1000
 var can_shoot = true
 
 export var max_lives = 10
-var lives_left = max_lives
+onready var lives_left = max_lives
 signal on_player_damaged(dead)
 
 func get_lives_left():
