@@ -24,7 +24,5 @@ func _on_enemy_died(enemy_node):
 	scoreText.text = str(player_score)
 	enemy_node.queue_free()
 
-
-
 func _on_restartButton_button_down():
 	get_tree().reload_current_scene()

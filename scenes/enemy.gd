@@ -52,13 +52,16 @@ func check_for_player():
 		player_spotted = true
 
 func _physics_process(_delta):	
+	if(not is_instance_valid(player)):
+		return
 	if(not is_dead and player_spotted and player):
 		face_to_player()
 		chase_player()
 
 func _process(delta):	
-	if(player):
-		check_for_player()
+	if(not is_instance_valid(player)):
+		return
+	check_for_player()
 	if(not is_dead and not is_reloading and player_spotted and player):
 		shoot()
 		is_reloading = true
