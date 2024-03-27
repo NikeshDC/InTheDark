@@ -10,9 +10,12 @@
 [node name="game_stage" type="Node2D"]
 script = ExtResource( 4 )
 
-[node name="game_map01" parent="." instance=ExtResource( 3 )]
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="game_map01" parent="Navigation2D" instance=ExtResource( 3 )]
 position = Vector2( -215, -107 )
 collision_mask = 5
+bake_navigation = true
 
 [node name="player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 11, 102 )

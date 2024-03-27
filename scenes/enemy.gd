@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var player = $"../player"
 onready var playerAnimator = $AnimatedSprite
+onready var gameScene = $".."
 
 export var speed = 100.0
 var movement_direction = Vector2()
@@ -9,7 +10,6 @@ var shoot_dir = 0
 export var player_follow_range = 100
 export var player_spot_range = 500
 var player_spotted = false
-var player_inside_range = false
 
 export var max_hit_count = 3
 var hit_count = 0
@@ -25,15 +25,15 @@ func face_to_player():
 	look_at(player.position)
 	shoot_dir = global_rotation
 	
-func chase_player():
-	movement_direction = player.position - position
-	if(movement_direction.length() > player_follow_range):
-		player_inside_range = false
-	else:
-		player_inside_range = true
-		
-	if(not player_inside_range):
+func set_movement_dir_from_navigation():
+	var path = gameScene.get_navigation_path(position, player.position)
+	if(path and path.size() > 1):
+		movement_direction = path[1] - position
 		movement_direction = movement_direction.normalized()
+	
+func chase_player():
+	if(self.position.distance_to(player.position) > player_follow_range):
+		set_movement_dir_from_navigation()
 		var movement = movement_direction * speed
 		var actual_velocity = move_and_slide(movement)
 		set_animation(actual_velocity)

@@ -6,6 +6,8 @@ onready var scoreText = $UI/scoreText/value
 onready var lives_leftText = $UI/lives_leftText/value
 onready var game_overText = $UI/game_overText
 
+onready var nav2d := $Navigation2D
+
 var player_score = 0
 
 func _ready():
@@ -26,3 +28,7 @@ func _on_enemy_died(enemy_node):
 
 func _on_restartButton_button_down():
 	get_tree().reload_current_scene()
+
+func get_navigation_path(startpos : Vector2, endpos : Vector2):
+	return nav2d.get_simple_path(startpos, endpos)
+	
