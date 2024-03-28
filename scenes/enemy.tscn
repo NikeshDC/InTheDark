@@ -5,11 +5,11 @@
 [ext_resource path="res://scenes/RandomTimer.gd" type="Script" id=3]
 [ext_resource path="res://assets/enemy/zombie_spriteframes.tres" type="SpriteFrames" id=4]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 20, 20 )
+[sub_resource type="CircleShape2D" id=1]
+radius = 22.2036
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 25, 25 )
+[sub_resource type="CircleShape2D" id=2]
+radius = 23.0217
 
 [node name="enemy" type="KinematicBody2D" groups=["player"]]
 collision_layer = 4
