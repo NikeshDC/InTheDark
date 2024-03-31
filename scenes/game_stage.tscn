@@ -19,15 +19,27 @@ collision_mask = 5
 bake_navigation = true
 
 [node name="player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 153, 195 )
+position = Vector2( 158, 200 )
 speed = 300.0
 
-[node name="Light2D" type="Light2D" parent="player"]
+[node name="Light2D_shadow" type="Light2D" parent="player"]
 position = Vector2( 10, 2 )
 texture = ExtResource( 5 )
-offset = Vector2( 157.147, 0 )
-energy = 1.89
+offset = Vector2( 260, 0 )
+energy = 0.7
 shadow_enabled = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Light2D_visibility" type="Light2D" parent="player"]
+position = Vector2( 10, 2 )
+texture = ExtResource( 5 )
+offset = Vector2( 260, 0 )
+energy = 0.3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="enemy" parent="." instance=ExtResource( 2 )]
 position = Vector2( 604, 366 )
@@ -107,7 +119,7 @@ text = "RESTART"
 [node name="BG" type="Sprite" parent="."]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.0705882, 0.0705882, 0.0705882, 1 )
+color = Color( 0.14902, 0.14902, 0.14902, 1 )
 
 [connection signal="on_player_damaged" from="player" to="." method="_on_player_on_player_damaged"]
 [connection signal="died" from="enemy" to="." method="_on_enemy_died"]
