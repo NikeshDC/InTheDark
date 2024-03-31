@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://tilemap/tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://game_map/tileset.tres" type="TileSet" id=1]
 
 [node name="game_map01" type="TileMap"]
 tile_set = ExtResource( 1 )

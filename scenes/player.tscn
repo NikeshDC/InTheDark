@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player_bullet.tscn" type="PackedScene" id=2]
@@ -9,6 +9,23 @@ radius = 15.5
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 19.0
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+uniform vec4 hit_color: hint_color = vec4(1.0);
+
+void fragment()
+{
+	vec4 main_texture = texture(TEXTURE, UV);
+	main_texture.rgb = mix(main_texture.rgb, hit_color.rgb, hit_color.a);
+	
+	COLOR = main_texture;
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/hit_color = Color( 1, 1, 1, 0 )
 
 [node name="player" type="KinematicBody2D" groups=["player"]]
 collision_mask = 16
@@ -44,6 +61,7 @@ autostart = true
 current = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 4 )
 frames = ExtResource( 3 )
 animation = "walking"
 frame = 4
