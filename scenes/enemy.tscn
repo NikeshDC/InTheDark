@@ -1,15 +1,32 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/enemy.gd" type="Script" id=1]
 [ext_resource path="res://scenes/enemy_bullet.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/RandomTimer.gd" type="Script" id=3]
 [ext_resource path="res://assets/enemy/zombie_spriteframes.tres" type="SpriteFrames" id=4]
+[ext_resource path="res://assets/enemy_material.tres" type="Material" id=5]
+[ext_resource path="res://assets/enemy/hit_effect_enemy.tres" type="Animation" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.2036
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 23.0217
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/blend_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="enemy" type="KinematicBody2D" groups=["player"]]
 collision_layer = 4
@@ -46,11 +63,16 @@ maxTime = 2.0
 randomInitialize = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = ExtResource( 5 )
 rotation = 1.5708
 scale = Vector2( 0.6, 0.6 )
 frames = ExtResource( 4 )
 animation = "walking"
 frame = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 3 )
+anims/hit_effect = ExtResource( 6 )
 
 [connection signal="area_entered" from="hit_box" to="." method="_on_hit_box_area_entered"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]

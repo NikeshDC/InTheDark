@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
 onready var player = $"../player"
-onready var playerAnimator = $AnimatedSprite
+onready var spriteAnimator = $AnimatedSprite
+onready var animationPlayer = $AnimationPlayer
 onready var gameScene = $".."
 
 export var speed = 100.0
@@ -36,16 +37,19 @@ func chase_player():
 		set_movement_dir_from_navigation()
 		var movement = movement_direction * speed
 		var actual_velocity = move_and_slide(movement)
-		set_animation(actual_velocity)
+		set_move_animation(actual_velocity)
 	else:
-		set_animation(Vector2(0,0))
+		set_move_animation(Vector2(0,0))
 		
-func set_animation(velocity):
+func set_move_animation(velocity):
 	if velocity.length() > 10.0:
-		playerAnimator.play("walking")
+		spriteAnimator.play("walking")
 	else:
-		playerAnimator.stop()
+		spriteAnimator.stop()
 		
+func play_hit_animation():
+		animationPlayer.play("hit_effect")
+
 func check_for_player():
 	var direction_to_player = player.position - position
 	if(direction_to_player.length() < player_spot_range):
@@ -82,6 +86,7 @@ func _on_hit_box_area_entered(area):
 		on_hit_by_bullet()
 
 func on_hit_by_bullet():
+	play_hit_animation()
 	hit_count = hit_count + 1
 	if(hit_count >= max_hit_count):
 		emit_signal("died", self)

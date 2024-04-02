@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-onready var playerAnimator = $AnimatedSprite
+onready var spriteAnimator = $AnimatedSprite
+onready var animation_player = $AnimationPlayer
 
 export var speed = 100.0
 var movement_direction = Vector2()
@@ -35,18 +36,21 @@ func set_movementdir_from_input():
 		movement_direction.x -= 1
 	movement_direction = movement_direction.normalized()
 	
-func set_animation(velocity):
+func set_move_animation(velocity):
 	if velocity.length() > 10.0:
-		playerAnimator.play("walking")
+		spriteAnimator.play("walking")
 	else:
-		playerAnimator.stop()
+		spriteAnimator.stop()
+
+func play_hit_effect():
+	animation_player.play("hit_effect")
 
 func _physics_process(_delta):
 	set_player_rotation()
 	set_movementdir_from_input()
 	var movement = movement_direction * speed
 	var actual_velocity = move_and_slide(movement)
-	set_animation(actual_velocity)
+	set_move_animation(actual_velocity)
 
 
 func _process(delta):	
@@ -72,6 +76,7 @@ func _on_hit_box_area_entered(area):
 func on_hit_by_bullet():
 	if(lives_left <= 0):
 		return
+	play_hit_effect()
 	lives_left = lives_left - 1
 	if(lives_left <= 0):
 		emit_signal("on_player_damaged", true)  #player dead
