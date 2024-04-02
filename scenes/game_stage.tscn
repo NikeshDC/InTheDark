@@ -19,10 +19,10 @@ collision_mask = 5
 bake_navigation = true
 
 [node name="player" parent="." instance=ExtResource( 1 )]
+unique_name_in_owner = true
 position = Vector2( 318, 287 )
-speed = 300.0
 
-[node name="Light2D_shadow" type="Light2D" parent="player"]
+[node name="Light2D_torch" type="Light2D" parent="player"]
 light_mask = 65536
 position = Vector2( 10, 2 )
 texture = ExtResource( 5 )
@@ -47,8 +47,6 @@ __meta__ = {
 
 [node name="enemy" parent="." instance=ExtResource( 2 )]
 position = Vector2( 548, 170 )
-player_spot_range = 400
-bulletSpeed = 500
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -93,7 +91,7 @@ uppercase = true
 [node name="restartButton" type="Button" parent="UI"]
 margin_left = 502.0
 margin_top = 7.0
-margin_right = 514.0
+margin_right = 567.0
 margin_bottom = 27.0
 text = "RESTART"
 
@@ -101,6 +99,8 @@ text = "RESTART"
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.14902, 0.14902, 0.14902, 1 )
+
+[node name="Line2D" type="Line2D" parent="."]
 
 [connection signal="on_player_damaged" from="player" to="." method="_on_player_on_player_damaged"]
 [connection signal="died" from="enemy" to="." method="_on_enemy_died"]

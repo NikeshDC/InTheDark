@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/enemy.gd" type="Script" id=1]
-[ext_resource path="res://scenes/enemy_bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/zombie_vomit.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/RandomTimer.gd" type="Script" id=3]
 [ext_resource path="res://assets/enemy/zombie_spriteframes.tres" type="SpriteFrames" id=4]
 [ext_resource path="res://assets/enemy_material.tres" type="Material" id=5]
@@ -12,6 +12,9 @@ extents = Vector2( 18.5, 18 )
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 23.0217
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 155.013
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -33,7 +36,7 @@ collision_layer = 4
 collision_mask = 20
 collision/safe_margin = 8.0
 script = ExtResource( 1 )
-bulletScene = ExtResource( 2 )
+projectileScene = ExtResource( 2 )
 
 [node name="kinematic_colider" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 0 )
@@ -45,6 +48,7 @@ __meta__ = {
 [node name="hit_box" type="Area2D" parent="." groups=["damageable"]]
 collision_layer = 4
 collision_mask = 2
+monitorable = false
 __meta__ = {
 "_edit_lock_": true
 }
@@ -52,8 +56,21 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box"]
 shape = SubResource( 2 )
 
-[node name="fire_point" type="Node2D" parent="."]
-position = Vector2( 28, 0 )
+[node name="player_detection_region" type="Area2D" parent="."]
+collision_layer = 32
+monitorable = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_detection_region"]
+shape = SubResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="fire_point" type="Position2D" parent="."]
+position = Vector2( 7, 0 )
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.8
@@ -61,8 +78,10 @@ one_shot = true
 autostart = true
 script = ExtResource( 3 )
 baseTime = 1.0
-maxTime = 2.0
 randomInitialize = true
+
+[node name="NavigationPathTimer" type="Timer" parent="."]
+wait_time = 0.05
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 5 )
@@ -70,10 +89,15 @@ rotation = 1.5708
 scale = Vector2( 0.6, 0.6 )
 frames = ExtResource( 4 )
 animation = "hitting"
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )
 anims/hit_effect = ExtResource( 6 )
 
 [connection signal="area_entered" from="hit_box" to="." method="_on_hit_box_area_entered"]
+[connection signal="area_entered" from="player_detection_region" to="." method="_on_player_detection_region_area_entered"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
+[connection signal="timeout" from="NavigationPathTimer" to="." method="_on_NavigationPathTimer_timeout"]
