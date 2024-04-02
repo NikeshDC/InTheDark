@@ -20,7 +20,7 @@ bake_navigation = true
 
 [node name="player" parent="." instance=ExtResource( 1 )]
 unique_name_in_owner = true
-position = Vector2( 318, 287 )
+position = Vector2( 335, 305 )
 
 [node name="Light2D_torch" type="Light2D" parent="player"]
 light_mask = 65536
@@ -33,17 +33,22 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Light2D_visibility" type="Light2D" parent="player"]
+[node name="Light2D_visibility_player" type="Light2D" parent="player"]
 light_mask = 32768
-position = Vector2( -78, 0 )
 scale = Vector2( 0.295494, 0.284271 )
 texture = ExtResource( 6 )
-offset = Vector2( 260, 0 )
 mode = 2
 range_item_cull_mask = 33
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Light2D_visibility_hit_effect" type="Light2D" parent="player"]
+light_mask = 32768
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+mode = 2
+range_item_cull_mask = 64
 
 [node name="enemy" parent="." instance=ExtResource( 2 )]
 position = Vector2( 548, 170 )
@@ -99,8 +104,6 @@ text = "RESTART"
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.14902, 0.14902, 0.14902, 1 )
-
-[node name="Line2D" type="Line2D" parent="."]
 
 [connection signal="on_player_damaged" from="player" to="." method="_on_player_on_player_damaged"]
 [connection signal="died" from="enemy" to="." method="_on_enemy_died"]

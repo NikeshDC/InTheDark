@@ -4,6 +4,8 @@ extends KinematicBody2D
 onready var game_scene = get_tree().current_scene
 onready var spriteAnimator = $AnimatedSprite
 onready var animation_player = $AnimationPlayer
+onready var hit_direction = $hit_direction
+
 
 export var move_speed : float = 500.0
 var movement_direction : Vector2 = Vector2()
@@ -37,15 +39,17 @@ func set_movementdir_from_input():
 		movement_direction.x -= 1
 	movement_direction = movement_direction.normalized()
 	
-func set_move_animation(velocity):
+func set_move_animation(velocity : Vector2):
 	#play walking animation if velocity is high enough else stop the walking animation
 	if velocity.length() > 10.0:
 		spriteAnimator.play("walking")
 	else:
 		spriteAnimator.stop()
 
-func play_hit_effect():
+func play_hit_effect(hit_position : Vector2):
 	animation_player.play("hit_effect")
+	var relative_hit_dir = hit_position - self.global_position
+	hit_direction.global_rotation = relative_hit_dir.angle()
 
 func shoot():
 	var bullet = bulletScene.instance()
@@ -53,6 +57,16 @@ func shoot():
 	bullet.rotation = shoot_dir
 	bullet.speed = bulletSpeed
 	game_scene.call_deferred("add_child", bullet)
+
+func handle_hit_by_bullet(bullet_node : Node2D):
+	if(lives_left <= 0):
+		return
+	play_hit_effect(bullet_node.global_position)
+	lives_left = lives_left - 1
+	if(lives_left <= 0):
+		emit_signal("on_player_damaged", true)  #player dead
+	else:
+		emit_signal("on_player_damaged", false) #player still alive
 	
 func get_lives_left():
 	return lives_left
@@ -60,17 +74,7 @@ func get_lives_left():
 ##--SIGNAL RECEIVERS--##
 func _on_hit_box_area_entered(area):
 	if(area.is_in_group("bullet")):
-		on_hit_by_bullet()
-
-func on_hit_by_bullet():
-	if(lives_left <= 0):
-		return
-	play_hit_effect()
-	lives_left = lives_left - 1
-	if(lives_left <= 0):
-		emit_signal("on_player_damaged", true)  #player dead
-	else:
-		emit_signal("on_player_damaged", false) #player still alive
+		handle_hit_by_bullet(area)
 
 func _on_ShootTimer_timeout():
 	can_shoot = true

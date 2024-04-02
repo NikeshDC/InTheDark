@@ -2,7 +2,7 @@
 
 [resource]
 resource_name = "hit_effect"
-length = 0.1
+length = 0.3
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:material:shader_param/hit_color")
@@ -15,4 +15,16 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 0.996078, 0.160784, 0.160784, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("hit_direction:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 0.945098, 0.207843, 0.207843, 1 ), Color( 0.952941, 0.329412, 0.329412, 1 ), Color( 1, 1, 1, 0 ) ]
 }
