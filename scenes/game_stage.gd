@@ -30,5 +30,6 @@ func _on_restartButton_button_down():
 	get_tree().reload_current_scene()
 
 func get_navigation_path(startpos : Vector2, endpos : Vector2):
-	return nav2d.get_simple_path(startpos, endpos)
+	var path = nav2d.get_simple_path(startpos, endpos)
+	return path
 	

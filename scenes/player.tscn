@@ -77,6 +77,7 @@ autostart = true
 current = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+light_mask = 32
 material = SubResource( 4 )
 frames = ExtResource( 3 )
 animation = "walking"

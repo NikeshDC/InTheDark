@@ -7,8 +7,8 @@
 [ext_resource path="res://assets/enemy_material.tres" type="Material" id=5]
 [ext_resource path="res://assets/enemy/hit_effect_enemy.tres" type="Animation" id=6]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 22.2036
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 18.5, 18 )
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 23.0217
@@ -31,12 +31,13 @@ tracks/0/keys = {
 [node name="enemy" type="KinematicBody2D" groups=["player"]]
 collision_layer = 4
 collision_mask = 20
+collision/safe_margin = 8.0
 script = ExtResource( 1 )
-player_spot_range = 400
 bulletScene = ExtResource( 2 )
 
 [node name="kinematic_colider" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( 0.5, 0 )
+shape = SubResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -56,6 +57,7 @@ position = Vector2( 28, 0 )
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.8
+one_shot = true
 autostart = true
 script = ExtResource( 3 )
 baseTime = 1.0
@@ -67,8 +69,7 @@ material = ExtResource( 5 )
 rotation = 1.5708
 scale = Vector2( 0.6, 0.6 )
 frames = ExtResource( 4 )
-animation = "walking"
-frame = 2
+animation = "hitting"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )

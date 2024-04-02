@@ -17,17 +17,19 @@ var hit_count = 0
 signal died(enemy_node)
 var is_dead = false
 
-onready var fire_point = $fire_point
-export var bulletScene : PackedScene
-export var bulletSpeed = 1000
+onready var fire_point = $fire_point #point from where the projectile is shot
+export var bulletScene : PackedScene #scene used to instantiate the projectile
+export var bulletSpeed = 1000  #the speed of fired projectile
 var is_reloading = false
 
 func face_to_player():
 	look_at(player.position)
 	shoot_dir = global_rotation
 	
+#sets the movement direction for enemy based on built-in pathfinding to reach player
 func set_movement_dir_from_navigation():
-	var path = gameScene.get_navigation_path(position, player.position)
+	#move towards the next waypoint on the path from the current position to the player
+	var path = gameScene.get_navigation_path(global_position, player.global_position)
 	if(path and path.size() > 1):
 		movement_direction = path[1] - position
 		movement_direction = movement_direction.normalized()
@@ -63,6 +65,7 @@ func _physics_process(_delta):
 		chase_player()
 
 func _process(delta):	
+	#check if player instance has not been destroyed (which happens in game over) as null check is not enough
 	if(not is_instance_valid(player)):
 		return
 	check_for_player()
