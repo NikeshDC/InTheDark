@@ -100,7 +100,8 @@ margin_top = 280.0
 margin_right = 567.0
 margin_bottom = 294.0
 theme = SubResource( 1 )
-text = "-game over-"
+custom_fonts/font = ExtResource( 9 )
+text = "!! game over    !!"
 uppercase = true
 
 [node name="restartButton" type="Button" parent="UI"]
