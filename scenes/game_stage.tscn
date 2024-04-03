@@ -109,6 +109,7 @@ margin_left = 502.0
 margin_top = 7.0
 margin_right = 567.0
 margin_bottom = 27.0
+custom_fonts/font = ExtResource( 9 )
 text = "RESTART"
 
 [node name="BG" type="Sprite" parent="."]
@@ -116,17 +117,17 @@ text = "RESTART"
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="EnemySpawner" type="Node" parent="."]
-script = ExtResource( 7 )
-enemy_scene = ExtResource( 2 )
-
-[node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
+[node name="SpawnTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
 script = ExtResource( 8 )
 minTime = 2.0
 maxTime = 3.0
 randomInitialize = true
+
+[node name="EnemySpawner" type="Node" parent="."]
+script = ExtResource( 7 )
+enemy_scene = ExtResource( 2 )
 
 [node name="spawn_point_1" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
 position = Vector2( 903, 914 )
@@ -175,3 +176,4 @@ position = Vector2( 525, 465 )
 
 [connection signal="on_player_damaged" from="player" to="." method="_on_player_on_player_damaged"]
 [connection signal="button_down" from="UI/restartButton" to="." method="_on_restartButton_button_down"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]

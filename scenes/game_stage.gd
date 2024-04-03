@@ -34,6 +34,7 @@ func get_navigation_path(startpos : Vector2, endpos : Vector2):
 func spawn_new_enemies():
 	for i in range(enemy_spawn_min + (randi() % (enemy_spawn_max - enemy_spawn_min))):
 		enemy_spawner.spawn_random()
+		enemies_left += 1
 
 ##--SIGNAL RECEIVERS--##
 func _on_player_on_player_damaged(dead):
@@ -43,16 +44,21 @@ func _on_player_on_player_damaged(dead):
 		player.queue_free()
 
 func _on_enemy_died(enemy_node):
-	player_score = player_score + 1
+	player_score += 1
 	scoreText.text = str(player_score)
 	enemy_node.queue_free()
-	enemies_left = enemies_left -1
-	if(enemies_left <= enemy_spawn_threshold):
-		spawn_new_enemies()
+	enemies_left -= 1
 
 func _on_restartButton_button_down():
 	get_tree().reload_current_scene()
+	
+func _on_SpawnTimer_timeout():
+	if(enemies_left <= enemy_spawn_threshold):
+		spawn_new_enemies()
 ##--##--##
 
 
 	
+
+
+
