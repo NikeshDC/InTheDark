@@ -7,7 +7,7 @@ onready var animationPlayer = $AnimationPlayer
 onready var navigation_path_timer = $NavigationPathTimer
 onready var game_scene = get_tree().current_scene
 
-export var speed : float = 100.0
+export var move_speed : float = 100.0
 export var firing_range : float = 50.0
 var path_to_player = null
 var movement_direction : Vector2 = Vector2()
@@ -36,7 +36,7 @@ func chase_player():
 	if(self.position.distance_to(player.position) > firing_range):
 		player_in_firing_range = false
 		set_movement_dir_from_navigation_path()
-		var movement = movement_direction * speed
+		var movement = movement_direction * move_speed
 		var actual_velocity = move_and_slide(movement)
 		set_move_animation(actual_velocity)
 	else:
@@ -120,7 +120,9 @@ func _physics_process(_delta):
 		chase_player()
 ##--##--##
 
-
+##--INITIALIZE--##
+func _ready():
+	self.connect("died", game_scene, "_on_enemy_died")
 
 
 

@@ -82,7 +82,7 @@ shape = SubResource( 2 )
 position = Vector2( 20, 1 )
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.5
 autostart = true
 
 [node name="Camera2D" type="Camera2D" parent="."]

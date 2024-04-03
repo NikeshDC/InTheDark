@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://scenes/game_stage.gd" type="Script" id=4]
 [ext_resource path="res://assets/light2d_cone.png" type="Texture" id=5]
 [ext_resource path="res://assets/light2d_circle.png" type="Texture" id=6]
+[ext_resource path="res://scenes/EnemySpawner.gd" type="Script" id=7]
+[ext_resource path="res://scenes/RandomTimer.gd" type="Script" id=8]
+[ext_resource path="res://assets/font_arcade_classic.tres" type="DynamicFont" id=9]
 
 [sub_resource type="Theme" id=1]
 
@@ -20,7 +23,10 @@ bake_navigation = true
 
 [node name="player" parent="." instance=ExtResource( 1 )]
 unique_name_in_owner = true
-position = Vector2( 335, 305 )
+position = Vector2( 227, 119 )
+move_speed = 300.0
+bulletSpeed = 500.0
+max_lives = 10
 
 [node name="Light2D_torch" type="Light2D" parent="player"]
 light_mask = 65536
@@ -49,39 +55,43 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 6 )
 mode = 2
 range_item_cull_mask = 64
-
-[node name="enemy" parent="." instance=ExtResource( 2 )]
-position = Vector2( 548, 170 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="scoreText" type="Label" parent="UI"]
 margin_left = 39.0
 margin_top = 46.0
-margin_right = 84.0
-margin_bottom = 60.0
-text = "score:"
+margin_right = 122.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 9 )
+text = "score !"
 uppercase = true
 
 [node name="value" type="Label" parent="UI/scoreText"]
-margin_left = 47.0
-margin_top = 1.0
-margin_right = 87.0
-margin_bottom = 15.0
+margin_left = 90.0
+margin_right = 130.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 9 )
 text = "0"
 
 [node name="lives_leftText" type="Label" parent="UI"]
-margin_left = 909.0
-margin_top = 50.0
-margin_right = 979.0
-margin_bottom = 64.0
-text = "lives left:"
+margin_left = 26.0
+margin_top = 13.0
+margin_right = 176.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 9 )
+text = "lives left !"
 uppercase = true
 
 [node name="value" type="Label" parent="UI/lives_leftText"]
-margin_left = 74.0
-margin_right = 114.0
-margin_bottom = 14.0
+margin_left = 149.0
+margin_top = -1.0
+margin_right = 189.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 9 )
 text = "0"
 
 [node name="game_overText" type="Label" parent="UI"]
@@ -103,8 +113,64 @@ text = "RESTART"
 [node name="BG" type="Sprite" parent="."]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.14902, 0.14902, 0.14902, 1 )
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="EnemySpawner" type="Node" parent="."]
+script = ExtResource( 7 )
+enemy_scene = ExtResource( 2 )
+
+[node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
+one_shot = true
+autostart = true
+script = ExtResource( 8 )
+minTime = 2.0
+maxTime = 3.0
+randomInitialize = true
+
+[node name="spawn_point_1" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 903, 914 )
+
+[node name="spawn_point_2" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( -77, 774 )
+
+[node name="spawn_point_3" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 134, 1151 )
+
+[node name="spawn_point_4" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 506, 1029 )
+
+[node name="spawn_point_5" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 665, 850 )
+
+[node name="spawn_point_6" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( -139, 1023 )
+
+[node name="spawn_point_7" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 892, 143 )
+
+[node name="spawn_point_8" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( -150, 474 )
+
+[node name="spawn_point_9" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 668, 170 )
+
+[node name="spawn_point_10" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 874, 473 )
+
+[node name="spawn_point_11" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 382, 1212 )
+
+[node name="spawn_point_12" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 271, 942 )
+
+[node name="spawn_point_13" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 892, 1148 )
+
+[node name="spawn_point_14" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 155, 399 )
+
+[node name="spawn_point_15" type="Position2D" parent="EnemySpawner" groups=["spawn_point"]]
+position = Vector2( 525, 465 )
 
 [connection signal="on_player_damaged" from="player" to="." method="_on_player_on_player_damaged"]
-[connection signal="died" from="enemy" to="." method="_on_enemy_died"]
 [connection signal="button_down" from="UI/restartButton" to="." method="_on_restartButton_button_down"]

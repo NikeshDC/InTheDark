@@ -14,6 +14,8 @@ var shoot_dir : float = 0.0
 onready var fire_point = $fire_point  #position at which bullet is instanced
 export var bulletScene : PackedScene  #bullet scene used for creation
 export var bulletSpeed : float = 1000.0
+onready var shoot_timer = $ShootTimer
+export var fire_timer : float = 0.5  #minimum time between consecutive fiiring of bullet
 var can_shoot : bool = true
 
 export var max_lives : int = 10
@@ -94,5 +96,7 @@ func _process(delta):
 		can_shoot = false
 ##--##--##
 
-
+##--INITIALIZE--##
+func _ready():
+	shoot_timer.start(fire_timer)
 
